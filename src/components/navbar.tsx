@@ -1,13 +1,12 @@
 import { navIcons, navLinks } from '@constants'
 import dayjs from 'dayjs'
-import React from 'react'
 
 const Navbar = () => {
   return (
     <nav>
         <div className="">
         <img src="/images/logo.svg" alt="Logo" />
-        <p className="font-bold">Mofeleng's Portfolio</p>
+        <p className="font-bold">Shadow's Portfolio</p>
 
         <ul>
             {navLinks.map(({ id, name }) => (
