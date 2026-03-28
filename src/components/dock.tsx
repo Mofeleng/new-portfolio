@@ -1,10 +1,12 @@
-import { dockApps } from "@constants";
+import { dockApps, WINDOW_CONFIG } from "@constants";
 import { useGSAP } from "@gsap/react";
 import React, { useRef } from "react"
 import { Tooltip } from "react-tooltip";
 import gsap from "gsap";
-
+import useWindowStore from "@store/window";
 const Dock = () => {
+
+    const { windows, openWindow, closeWindow, focusWindow } = useWindowStore();
     const dockRef: React.RefObject<HTMLDivElement | null> = useRef(null);
     
     useGSAP(() => {
@@ -54,36 +56,48 @@ const Dock = () => {
         }
     }, []);
 
-    const toggleApp = ({  }:{ id: string, canOpen: boolean}) => {
+    const toggleApp = (app:typeof dockApps[0]) => {
+        if (!app.canOpen) return;
+        const windowKey = app.id as keyof typeof WINDOW_CONFIG;
+        const window = windows[windowKey];
 
+        if (window.isOpen) {
+            closeWindow(windowKey);
+        } else {
+            openWindow(windowKey);
+        }
+
+        console.log(windows);
     }
     return (
     <section id="dock">
         <div ref={dockRef} className="dock-container">
-            { dockApps.map(( { id, name, icon, canOpen }) => (
-                <div key={id} className="relative flex justify-center">
-                    <button
-                        type="button"
-                        className="dock-icon"
-                        aria-label={name}
-                        data-tooltip-id="dock-tooltip"
-                        data-tooltip-content={name}
-                        data-tooltip-delay-show={150}
-                        disabled={!canOpen}
-                        onClick={() => toggleApp({ id, canOpen }) }
-                    >
-                        <img 
-                            src={`/images/${icon}`}
-                            alt={name}
-                            loading="lazy"
-                            className={canOpen ? '' : 'opacity-60'}    
-                        />
-                    </button>
+            { dockApps.map((app) => {
+                const { id, name, icon, canOpen } = app;
+                return (
+                    <div key={id} className="relative flex justify-center">
+                        <button
+                            type="button"
+                            className="dock-icon"
+                            aria-label={name}
+                            data-tooltip-id="dock-tooltip"
+                            data-tooltip-content={name}
+                            data-tooltip-delay-show={150}
+                            disabled={!canOpen}
+                            onClick={() => toggleApp(app) }
+                        >
+                            <img 
+                                src={`/images/${icon}`}
+                                alt={name}
+                                loading="lazy"
+                                className={canOpen ? '' : 'opacity-60'}    
+                            />
+                        </button>
 
-                    <Tooltip id="dock-tooltip" place="top" className="tooltip" />
-                </div>
-            ))}
-
+                        <Tooltip id="dock-tooltip" place="top" className="tooltip" />
+                    </div>
+                )
+            })}
         </div>
     </section>
   )
