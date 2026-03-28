@@ -18,7 +18,7 @@ const FONT_WEIGHTS = {
 }
 
 const textHover = (container: HTMLElement | null, type: keyof typeof FONT_WEIGHTS) => {
-    if (!container) return;
+    if (!container) return () => {};
 
     const { min, max, default:base } = FONT_WEIGHTS[type];
     const letters = container.querySelectorAll("span");
@@ -58,8 +58,8 @@ const HomeScreen = () => {
     const subHeadingRef: React.RefObject<HTMLParagraphElement | null>  = useRef(null);
 
     useGSAP(() => {
-        const headingCleanup = textHover(headingRef.current, 'heading')!;
-        const subHeadingCleanup = textHover(subHeadingRef.current, "subheading")!;
+        const headingCleanup = textHover(headingRef.current, 'heading');
+        const subHeadingCleanup = textHover(subHeadingRef.current, "subheading");
 
         return () => {
             headingCleanup();
