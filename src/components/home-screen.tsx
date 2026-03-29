@@ -65,7 +65,7 @@ const HomeScreen = () => {
             headingCleanup();
             subHeadingCleanup();
         }
-    })
+    }, [])
   return (
     <section id="welcome">
         <p ref={subHeadingRef}>
