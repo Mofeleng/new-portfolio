@@ -2,7 +2,6 @@ import { WindowControls } from '@components'
 import { blogPosts } from '@constants'
 import WindowWrapper from '@hoc/window-wrapper'
 import { ChevronLeft, ChevronRight, Copy, MoveRight, PanelLeft, Plus, Search, Share, ShieldHalf } from 'lucide-react'
-import React from 'react'
 
 const Safari = () => {
   return (
