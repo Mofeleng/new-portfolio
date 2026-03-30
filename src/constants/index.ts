@@ -211,6 +211,19 @@ export {
   gallery,
 };
 
+export interface LocationItem {
+  id: number;
+  name: string;
+  icon: string;
+  kind: string;                 // e.g., "folder" or "file"
+  position?: string;
+  href?: string;
+  windowPosition?: string;       // optional for folders
+  fileType?: string;             // only files need this
+  imageUrl?: string;             // optional for folders
+  children?: LocationItem[];     // recursive nesting
+}
+
 const WORK_LOCATION = {
   id: 1,
   type: "work",
